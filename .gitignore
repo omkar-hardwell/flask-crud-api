@@ -1,0 +1,6 @@
+# Distribution / packaging
+.Python
+env/
+
+# PyCharm project settings
+.idea
