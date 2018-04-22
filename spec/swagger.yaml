@@ -1,0 +1,643 @@
+swagger: "2.0"
+info:
+  description: "This is the flask based crud api."
+  version: "1.0.0"
+  title: "Flask API - CRUD"
+host: "localhost:5000"
+basePath: "/"
+schemes:
+- "http"
+tags:
+- name: "Health Check"
+  description: "Check the health of the application"
+- name: "Department"
+  description: "Everything about Department"
+- name: "Employee"
+  description: "Everything about your Employee"
+paths:
+  /hello:
+    get:
+      tags:
+        - "Health Check"
+      description: "Health check"
+      summary: "Check the health of the application."
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/healthCheck'
+  /department/{department_id}:
+    get:
+      parameters:
+        - in: path
+          name: department_id
+          required: true
+          type: integer
+      tags:
+        - "Department"
+      description: "Get the details about given department"
+      summary: "Get department details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200GETResponseDepartment'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETAndDeleteResponseDepartment'
+        '404':
+          description: "404 Department not found"
+          schema:
+            $ref: '#/definitions/404ResponseDepartment'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+    put:
+      tags:
+        - "Department"
+      description: "Update the details about given department"
+      summary: "Update department details"
+      parameters:
+        - in: header
+          name: Correlation-Id
+          required: false
+          type: string
+        - in: path
+          name: department_id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/putRequestBodyDepartment'
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200PutResponseDepartment'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400PutResponseDepartment'
+        '404':
+          description: "404 Department not found"
+          schema:
+            $ref: '#/definitions/404ResponseDepartment'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+    delete:
+      parameters:
+        - in: path
+          name: department_id
+          required: true
+          type: integer
+      tags:
+        - "Department"
+      description: "Delete the details about given department"
+      summary: "Delete department details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200DeleteResponseDepartment'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETAndDeleteResponseDepartment'
+        '404':
+          description: "404 Department not found"
+          schema:
+            $ref: '#/definitions/404ResponseDepartment'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+  /department:
+    post:
+      parameters:
+        - in: header
+          name: Correlation-Id
+          required: false
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/postRequestBodyDepartment'
+      tags:
+        - "Department"
+      description: "Add details about department"
+      summary: "Add department details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200PostResponseDepartment'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400PostResponseDepartment'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+  /employee/{employee_id}:
+    get:
+      parameters:
+        - in: path
+          name: employee_id
+          required: true
+          type: integer
+      tags:
+        - "Employee"
+      description: "Get the details about given employee"
+      summary: "Get employee details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200GETResponseEmployee'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETAndDeleteResponseEmployee'
+        '404':
+          description: "404 Employee not found"
+          schema:
+            $ref: '#/definitions/404ResponseEmployee'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+    put:
+      tags:
+        - "Employee"
+      description: "Update the details about given employee"
+      summary: "Update employee details"
+      parameters:
+        - in: header
+          name: Correlation-Id
+          required: false
+          type: string
+        - in: path
+          name: employee_id
+          required: true
+          type: integer
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/putRequestBodyEmployee'
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200PutResponseEmployee'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400putResponseEmployee'
+        '404':
+          description: "404 Employee not found"
+          schema:
+            $ref: '#/definitions/404ResponseEmployee'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+    delete:
+      parameters:
+        - in: path
+          name: employee_id
+          required: true
+          type: integer
+      tags:
+        - "Employee"
+      description: "Delete the details about given employee"
+      summary: "Delete employee details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200DeleteResponseEmployee'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETAndDeleteResponseEmployee'
+        '404':
+          description: "404 Department not found"
+          schema:
+            $ref: '#/definitions/404ResponseEmployee'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+  /employee:
+    post:
+      parameters:
+        - in: header
+          name: Correlation-Id
+          required: false
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/postRequestBodyEmployee'
+      tags:
+        - "Employee"
+      description: "Add details about employee"
+      summary: "Add employee details"
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: '#/definitions/200PostResponseEmployee'
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400PostResponseEmployee'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
+definitions:
+  healthCheck:
+    type: object
+    properties:
+      status:
+        type: string
+    example:
+      status: ok
+  500Response:
+    description: 500 Internal server error
+    type: object
+    properties:
+      code:
+        type: string
+        example: server_error
+      message:
+        type: string
+        example: Could not connect to MySQL.
+    required:
+      - message
+      - code
+  200GETResponseDepartment:
+    description: 200 OK
+    type: object
+    properties:
+      department:
+        type: array
+        items:
+          type: object
+          properties:
+            department_id:
+              type: integer
+            name:
+              type: string
+          required:
+            - department_id
+            - name
+    required:
+      - department
+    example:
+      department:
+        department_id: 1
+        name: 'Information Technology'
+  400GETAndDeleteResponseDepartment:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+        example: bad_request
+      message:
+        type: string
+        example: <department_id> must be integer and greater than zero
+    required:
+      - message
+      - code
+  404ResponseDepartment:
+    description: 404 Department not found
+    type: object
+    properties:
+      code:
+        type: string
+        example: not_found_error
+      message:
+        type: string
+        example: Requested department id <department_id> not found.
+    required:
+      - message
+      - code
+  putRequestBodyDepartment:
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+    example:
+      name: 'Information Technology'
+  200PutResponseDepartment:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example: Department detail successfully updated for department id <department_id>
+  400PutResponseDepartment:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      message:
+        - missing department name: 'Please provide valid department name'
+        - <department_id> must be integer and greater than zero
+      code: bad_request
+  200DeleteResponseDepartment:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example: Department detail successfully removed for department id <department_id>
+  postRequestBodyDepartment:
+    type: object
+    properties:
+      department_id:
+        type: integer
+      name:
+        type: string
+    required:
+      - department_id
+      - name
+    example:
+      department_id: 1
+      name: 'Information Technology'
+  200PostResponseDepartment:
+    description: 200 OK
+    type: object
+    properties:
+      department:
+        type: array
+        items:
+          type: object
+          properties:
+            department_id:
+              type: integer
+            name:
+              type: string
+          required:
+            - department_id
+            - name
+    required:
+      - department
+    example:
+      department:
+        department_id: 1
+        name: 'Information Technology'
+  400PostResponseDepartment:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      message:
+        - non integer or negative fields list:
+            - department_id
+        - missing department name: 'Please provide valid department name'
+      code: bad_request
+  200GETResponseEmployee:
+    description: 200 OK
+    type: object
+    properties:
+      employee:
+        type: array
+        items:
+          type: object
+          properties:
+            employee_id:
+              type: integer
+            name:
+              type: string
+            department:
+              type: integer
+            date_of_joining:
+              type: string
+            gender:
+              type: string
+            address:
+              type: string
+            salary:
+              type: integer
+          required:
+            - employee_id
+            - name
+            - department
+    required:
+      - employee
+    example:
+      employee:
+        employee_id: 1
+        name: 'Omkar Kshirsagar'
+        department: 1
+        date_of_joining: '2017-01-01'
+        gender: 'male'
+        address: 'Lorem Ipsume Lorem Ipsume'
+        salary: 20000
+  400GETAndDeleteResponseEmployee:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+        example: bad_request
+      message:
+        type: string
+        example: <employee_id> must be integer and greater than zero
+    required:
+      - message
+      - code
+  404ResponseEmployee:
+    description: 404 Product not found
+    type: object
+    properties:
+      code:
+        type: string
+        example: not_found_error
+      message:
+        type: string
+        example: Requested employee id <employee_id> not found.
+    required:
+      - message
+      - code
+  putRequestBodyEmployee:
+    type: object
+    properties:
+      name:
+        type: string
+      department:
+        type: integer
+      date_of_joining:
+        type: string
+      gender:
+        type: string
+      address:
+        type: string
+      salary:
+        type: integer
+    required:
+      - name
+      - department
+    example:
+      name: 'Omkar Kshirsagar'
+      department: 1
+      date_of_joining: '2017-01-01'
+      gender: 'male'
+      address: 'Lorem Ipsume Lorem Ipsume'
+      salary: 20000
+  200PutResponseEmployee:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example: Employee detail successfully updated for employee id <employee_id>
+  400putResponseEmployee:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      message:
+        - missing employee name: 'Please provide valid employee name'
+        - non integer or negative fields list:
+            - department
+            - salary
+        - invalid gender value: 'Gender should be male or female'
+        - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
+        - <employee_id> must be integer and greater than zero
+  200DeleteResponseEmployee:
+    description: 200 OK
+    type: object
+    properties:
+      message:
+        type: string
+    required:
+      - message
+    example: Employee detail successfully removed for employee id <employee_id>
+  postRequestBodyEmployee:
+    type: object
+    properties:
+      employee_id:
+        type: integer
+      name:
+        type: string
+      department:
+        type: integer
+      date_of_joining:
+        type: string
+      gender:
+        type: string
+      address:
+        type: string
+      salary:
+        type: integer
+    required:
+      - employee_id
+      - name
+      - department
+    example:
+      employee_id: 1
+      name: 'Omkar Kshirsagar'
+      department: 1
+      date_of_joining: '2017-01-01'
+      gender: 'male'
+      address: 'Lorem Ipsume Lorem Ipsume'
+      salary: 20000
+  200PostResponseEmployee:
+    description: 200 OK
+    type: object
+    properties:
+      employee:
+        type: array
+        items:
+          type: object
+          properties:
+            employee_id:
+              type: integer
+            name:
+              type: string
+            department:
+              type: integer
+            date_of_joining:
+              type: string
+            gender:
+              type: string
+            address:
+              type: string
+            salary:
+              type: integer
+          required:
+            - employee_id
+            - name
+            - department
+    required:
+      - employee
+    example:
+      employee:
+        employee_id: 1
+        name: 'Omkar Kshirsagar'
+        department: 1
+        date_of_joining: '2017-01-01'
+        gender: 'male'
+        address: 'Lorem Ipsume Lorem Ipsume'
+        salary: 20000
+  400PostResponseEmployee:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - message
+      - code
+    example:
+      message:
+        - missing employee name: 'Please provide valid employee name'
+        - non integer or negative fields list:
+            - employee_id
+            - department
+            - salary
+        - invalid gender value: 'Gender should be male or female'
+        - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
+        - <employee_id> must be integer and greater than zero
