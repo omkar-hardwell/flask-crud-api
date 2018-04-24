@@ -1,10 +1,10 @@
 swagger: "2.0"
 info:
-  description: "This is the flask based crud api."
+  description: "This is the `Flask` based api to performs *CRUD* operation about Department and Employee details. Operations includes basic HTTP methods `GET` `PUT` `DELETE` and `POST`"
   version: "1.0.0"
   title: "Flask API - CRUD"
 host: "localhost:5000"
-basePath: "/"
+basePath: "/v1"
 schemes:
 - "http"
 tags:
@@ -17,6 +17,12 @@ tags:
 paths:
   /hello:
     get:
+      parameters:
+        - in: header
+          name: Flask-CRUD-API-Key
+          required: true
+          type: string
+          description: "Api key for authorization"
       tags:
         - "Health Check"
       description: "Health check"
@@ -29,10 +35,16 @@ paths:
   /department/{department_id}:
     get:
       parameters:
+        - in: header
+          name: Flask-CRUD-API-Key
+          required: true
+          type: string
+          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
           type: integer
+          description: "Unique identification of department"
       tags:
         - "Department"
       description: "Get the details about given department"
@@ -61,13 +73,15 @@ paths:
       summary: "Update department details"
       parameters:
         - in: header
-          name: Correlation-Id
-          required: false
+          name: Flask-CRUD-API-Key
+          required: true
           type: string
+          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
           type: integer
+          description: "Unique identification of department"
         - in: body
           name: body
           schema:
@@ -91,10 +105,16 @@ paths:
             $ref: '#/definitions/500Response'
     delete:
       parameters:
+        - in: header
+          name: Flask-CRUD-API-Key
+          required: true
+          type: string
+          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
           type: integer
+          description: "Unique identification of department"
       tags:
         - "Department"
       description: "Delete the details about given department"
@@ -120,11 +140,13 @@ paths:
     post:
       parameters:
         - in: header
-          name: Correlation-Id
-          required: false
+          name: Flask-CRUD-API-Key
+          required: true
           type: string
+          description: "Api key for authorization"
         - in: body
           name: body
+          required: true
           schema:
             $ref: '#/definitions/postRequestBodyDepartment'
       tags:
@@ -147,10 +169,16 @@ paths:
   /employee/{employee_id}:
     get:
       parameters:
+        - in: header
+          name: Flask-CRUD-API-Key
+          required: true
+          type: string
+          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
           type: integer
+          description: "Unique identification of employee"
       tags:
         - "Employee"
       description: "Get the details about given employee"
@@ -179,15 +207,18 @@ paths:
       summary: "Update employee details"
       parameters:
         - in: header
-          name: Correlation-Id
-          required: false
+          name: Flask-CRUD-API-Key
+          required: true
           type: string
+          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
           type: integer
+          description: "Unique identification of employee"
         - in: body
           name: body
+          required: true
           schema:
             $ref: '#/definitions/putRequestBodyEmployee'
       responses:
@@ -209,10 +240,16 @@ paths:
             $ref: '#/definitions/500Response'
     delete:
       parameters:
+        - in: header
+          name: Flask-CRUD-API-Key
+          required: true
+          type: string
+          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
           type: integer
+          description: "Unique identification of employee"
       tags:
         - "Employee"
       description: "Delete the details about given employee"
@@ -238,11 +275,13 @@ paths:
     post:
       parameters:
         - in: header
-          name: Correlation-Id
-          required: false
+          name: Flask-CRUD-API-Key
+          required: true
           type: string
+          description: "Api key for authorization"
         - in: body
           name: body
+          required: true
           schema:
             $ref: '#/definitions/postRequestBodyEmployee'
       tags:
