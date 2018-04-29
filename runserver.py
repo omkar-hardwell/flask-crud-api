@@ -1,7 +1,7 @@
 """Application entry point"""
 from flask import Flask
+from src import api
 
-app = Flask(__name__)
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    api.app.run(port=5000, debug=True)

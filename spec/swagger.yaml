@@ -17,12 +17,6 @@ tags:
 paths:
   /hello:
     get:
-      parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
       tags:
         - "Health Check"
       description: "Health check"
