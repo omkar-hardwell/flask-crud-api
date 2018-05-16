@@ -29,11 +29,6 @@ paths:
   /department/{department_id}:
     get:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
@@ -43,6 +38,8 @@ paths:
         - "Department"
       description: "Get the details about given department"
       summary: "Get department details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -66,11 +63,6 @@ paths:
       description: "Update the details about given department"
       summary: "Update department details"
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
@@ -80,6 +72,8 @@ paths:
           name: body
           schema:
             $ref: '#/definitions/putRequestBodyDepartment'
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -99,11 +93,6 @@ paths:
             $ref: '#/definitions/500Response'
     delete:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: department_id
           required: true
@@ -113,6 +102,8 @@ paths:
         - "Department"
       description: "Delete the details about given department"
       summary: "Delete department details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -133,11 +124,6 @@ paths:
   /department:
     post:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: body
           name: body
           required: true
@@ -147,6 +133,8 @@ paths:
         - "Department"
       description: "Add details about department"
       summary: "Add department details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -163,11 +151,6 @@ paths:
   /employee/{employee_id}:
     get:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
@@ -177,6 +160,8 @@ paths:
         - "Employee"
       description: "Get the details about given employee"
       summary: "Get employee details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -200,11 +185,6 @@ paths:
       description: "Update the details about given employee"
       summary: "Update employee details"
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
@@ -215,6 +195,8 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/putRequestBodyEmployee'
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -234,11 +216,6 @@ paths:
             $ref: '#/definitions/500Response'
     delete:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: path
           name: employee_id
           required: true
@@ -248,6 +225,8 @@ paths:
         - "Employee"
       description: "Delete the details about given employee"
       summary: "Delete employee details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -268,11 +247,6 @@ paths:
   /employee:
     post:
       parameters:
-        - in: header
-          name: Flask-CRUD-API-Key
-          required: true
-          type: string
-          description: "Api key for authorization"
         - in: body
           name: body
           required: true
@@ -282,6 +256,8 @@ paths:
         - "Employee"
       description: "Add details about employee"
       summary: "Add employee details"
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -674,3 +650,9 @@ definitions:
         - invalid gender value: 'Gender should be male or female'
         - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
         - <employee_id> must be integer and greater than zero
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: Flask-CRUD-API-Key
+    description: "Api key for authentication"
