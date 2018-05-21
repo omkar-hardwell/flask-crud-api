@@ -1,5 +1,4 @@
 """Application entry point"""
-from flask import Flask
 from src.api import app
 
 
