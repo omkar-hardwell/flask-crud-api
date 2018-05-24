@@ -1,10 +1,12 @@
 """Database connection."""
 import configs
 
-from src.api import app
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 
-# Connect to database
-app.config['SQLALCHEMY_DATABASE_URI'] = configs.DATABASE_URI
-db = SQLAlchemy(app)
+# Create engine, session and base declarative
+engine = create_engine(configs.DATABASE_URI, echo=True)
+Session = sessionmaker(bind=engine)
+Base = declarative_base()
