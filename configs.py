@@ -9,8 +9,8 @@ SWAGGER_SPEC_PATH = 'spec/swagger.yaml'
 
 # Application environment
 '''
-Development: dev 
-Testing: test 
+Development: dev
+Testing: test
 '''
 ENVIRONMENT = 'dev'
 
