@@ -1,5 +1,6 @@
-"""Employee model"""
+"""Employee model."""
 from sqlalchemy import Column, Integer, Float, String, Date, Enum, ForeignKey
+from sqlalchemy.orm import relationship
 from mysql_connector import Base, Session
 from src import constants
 
@@ -20,6 +21,7 @@ class Employee(Base):
     gender = Column(Enum(*constants.GENDER), nullable=False, default='male')
     address = Column(String(1000), nullable=True)
     salary = Column(Float(10, 2), nullable=False)
+    department = relationship('department', backref='employee')
 
     def __repr__(self):
         return 'Employee(%r, %r, %r, %r, %r, %r, %r)' % (

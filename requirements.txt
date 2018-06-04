@@ -3,3 +3,4 @@ flasgger==0.8.3
 SQLAlchemy==1.2.7
 PyMySQL==0.8.1
 flake8==3.5.0
+oto==1.0.1
