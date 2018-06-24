@@ -1,7 +1,6 @@
 """Department model."""
 from oto import response
 from sqlalchemy import Column, Integer, String, exc
-from sqlalchemy.orm import relationship
 from sqlalchemy.orm.exc import NoResultFound
 from mysql_connector import Base, Session
 from src import constants

@@ -45,3 +45,13 @@ def get_department(department_id):
     :return: Department details against the given department id.
     """
     return flaskify(logic.get_department(department_id))
+
+
+@app.route(
+    configs.BASE_PATH + '/employee/<employee_id>', methods=['GET'])
+def get_employee(employee_id):
+    """Get the employee details against the given employee id.
+    :param employee_id: str - Unique identification of department.
+    :return: Employee details against the given employee id.
+    """
+    return flaskify(logic.get_employee(employee_id))
