@@ -468,7 +468,7 @@ definitions:
       employee:
         employee_id: 1
         name: 'Omkar Kshirsagar'
-        department: 1
+        department: 'IT'
         date_of_joining: '2017-01-01'
         gender: 'male'
         address: 'Lorem Ipsume Lorem Ipsume'
