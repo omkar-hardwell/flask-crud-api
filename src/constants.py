@@ -9,3 +9,6 @@ ERROR_MESSAGE_INTERNAL_ERROR = 'Could not connect to MySQL.'
 
 # HTTP response error codes
 ERROR_CODE_BAD_REQUEST = 'bad_request'
+
+# Endpoint messages
+DELETE_MESSAGE = '{module} detail successfully removed for {title} {id}'

@@ -46,3 +46,25 @@ def get_department(department_id):
     except (exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def delete_department(department_id):
+    """Delete the department details against the given department id.
+    :param department_id: int - Unique identification of department.
+    :return: Success message on delete department details.
+    :raises: sqlalchemy exceptions.
+    """
+    try:
+        result_set = session.query(Department). \
+            filter(Department.department_id == department_id).one()
+        session.delete(result_set)
+        session.commit()
+        return response.Response(message=constants.DELETE_MESSAGE.format(
+            module='Department', title='department id', id=department_id))
+    except NoResultFound:
+        return response.create_not_found_response(
+            constants.ERROR_MESSAGE_NOT_FOUND.format(
+                title='department id', id=department_id))
+    except (exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)

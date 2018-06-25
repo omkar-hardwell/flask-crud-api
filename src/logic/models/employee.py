@@ -2,6 +2,7 @@
 from oto import response
 from sqlalchemy import Column, Integer, Float, String, Date, Enum, \
     ForeignKey, exc
+from sqlalchemy.orm import backref, relationship
 from sqlalchemy.orm.exc import NoResultFound
 from mysql_connector import Base, Session
 from src import constants
@@ -18,12 +19,14 @@ class Employee(Base):
     employee_id = Column(
         Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column(String(255), nullable=False)
-    department_id = Column(
-        Integer, ForeignKey('department.department_id'), nullable=False)
+    department_id = Column(Integer, ForeignKey(
+        'department.department_id', ondelete='CASCADE'), nullable=False)
     date_of_joining = Column(Date, nullable=False)
     gender = Column(Enum(*constants.GENDER), nullable=False, default='male')
     address = Column(String(1000), nullable=True)
     salary = Column(Float(10, 2), nullable=False)
+    parent = relationship(
+        'Department', backref=backref('employee', cascade='all,delete'))
 
     def __repr__(self):
         return "<Employee(employee_id=%s, name='%s', department_id=%s, " \
