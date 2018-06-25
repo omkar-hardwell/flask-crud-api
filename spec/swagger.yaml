@@ -285,7 +285,7 @@ definitions:
     properties:
       code:
         type: string
-        example: server_error
+        example: internal_error
       message:
         type: string
         example: Could not connect to MySQL.
@@ -323,7 +323,7 @@ definitions:
         example: bad_request
       message:
         type: string
-        example: <department_id> must be integer and greater than zero
+        example: department id - <department_id> must be integer and greater than zero
     required:
       - message
       - code
@@ -482,7 +482,7 @@ definitions:
         example: bad_request
       message:
         type: string
-        example: <employee_id> must be integer and greater than zero
+        example: employee id - <employee_id> must be integer and greater than zero
     required:
       - message
       - code

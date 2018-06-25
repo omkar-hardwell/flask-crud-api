@@ -13,7 +13,7 @@ def get_department(department_id):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST,
             message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
-                id=department_id))
+                title='department id', id=department_id))
     return department.get_department(department_id)
 
 
@@ -25,5 +25,6 @@ def get_employee(employee_id):
     if not validator.is_number(employee_id):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST,
-            message=constants.ERROR_MESSAGE_BAD_REQUEST.format(id=employee_id))
+            message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
+                title='employee id', id=employee_id))
     return employee.get_employee(employee_id)
