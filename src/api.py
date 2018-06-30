@@ -65,3 +65,13 @@ def delete_department(department_id):
     :return: Success message on delete department details.
     """
     return flaskify(logic.delete_department(department_id))
+
+
+@app.route(
+    configs.BASE_PATH + '/employee/<employee_id>', methods=['DELETE'])
+def delete_employee(employee_id):
+    """Delete the employee details against the given employee id.
+    :param employee_id: str - Unique identification of employee.
+    :return: Success message on delete employee details.
+    """
+    return flaskify(logic.delete_employee(employee_id))
