@@ -41,3 +41,16 @@ def delete_department(department_id):
             message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
                 title='department id', id=department_id))
     return department.delete_department(department_id)
+
+
+def delete_employee(employee_id):
+    """Delete the employee details against the given employee id.
+    :param employee_id: str - Unique identification of employee.
+    :return: Success message on delete employee details.
+    """
+    if not validator.is_number(employee_id):
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST,
+            message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
+                title='employee id', id=employee_id))
+    return employee.delete_employee(employee_id)

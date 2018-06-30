@@ -67,3 +67,25 @@ def get_employee(employee_id):
     except (exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def delete_employee(employee_id):
+    """Delete the employee details against the given employee id.
+    :param employee_id: int - Unique identification of employee.
+    :return: Success message on delete employee details.
+    :raises: sqlalchemy exceptions.
+    """
+    try:
+        result_set = session.query(Employee). \
+            filter(Employee.employee_id == employee_id).one()
+        session.delete(result_set)
+        session.commit()
+        return response.Response(message=constants.DELETE_MESSAGE.format(
+            module='Employee', title='employee id', id=employee_id))
+    except NoResultFound:
+        return response.create_not_found_response(
+            constants.ERROR_MESSAGE_NOT_FOUND.format(
+                title='employee id', id=employee_id))
+    except (exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)
