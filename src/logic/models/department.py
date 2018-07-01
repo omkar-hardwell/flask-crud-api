@@ -68,3 +68,29 @@ def delete_department(department_id):
     except (exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def post_department(payload):
+    """Add the department details.
+    :param payload: json - Department details.
+    :return: Department details added against the given data.
+    :raises: sqlalchemy exceptions.
+    """
+    department = get_department(payload.get('department_id'))
+    if department:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST,
+            message=constants.DUPLICATE_KEY_MESSAGE.format(
+                title='department id', id=payload.get('department_id')))
+    try:
+        department = Department(
+            department_id=payload.get('department_id'),
+            name=payload.get('name')
+        )
+        session.add(department)
+        session.commit()
+        # Get department details via get_department() using last inserted id.
+        return get_department(department.department_id)
+    except(exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)
