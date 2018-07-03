@@ -54,3 +54,15 @@ def delete_employee(employee_id):
             message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
                 title='employee id', id=employee_id))
     return employee.delete_employee(employee_id)
+
+
+def post_department(payload):
+    """Add the department details.
+    :param payload: json - Department details.
+    :return: Department details added against the given data.
+    """
+    validate = validator.validate_request(payload, 'POST', 'department')
+    if validate:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
+    return department.post_department(payload)

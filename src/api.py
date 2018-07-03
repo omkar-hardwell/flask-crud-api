@@ -4,7 +4,7 @@
 """
 import configs
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from oto import response
 from oto.adaptors.flask import flaskify
 from flasgger import Swagger
@@ -75,3 +75,13 @@ def delete_employee(employee_id):
     :return: Success message on delete employee details.
     """
     return flaskify(logic.delete_employee(employee_id))
+
+
+@app.route(
+    configs.BASE_PATH + '/department', methods=['POST'])
+def post_department():
+    """Add the department details.
+    :param: request json - Request body.
+    :return: Department details added against the given data.
+    """
+    return flaskify(logic.post_department(request.get_json()))

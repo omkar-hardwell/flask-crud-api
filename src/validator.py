@@ -1,4 +1,5 @@
 """Validation for API methods."""
+from src import constants
 
 
 def is_number(value):
@@ -9,3 +10,54 @@ def is_number(value):
     if value.isdigit():
         return True
     return False
+
+
+def validate_request(payload, request_type, model):
+    """Validate POST and PUT request.
+    :param payload: json
+    :param request_type: str
+    :param model: str
+    :return: list
+    """
+    validation_message = []
+    if request_type == 'POST' and model == 'department':
+        missing_fields_list = missing_fields(
+            payload, constants.VALIDATION_DEPARTMENT_POST['missing_fields'])
+        if missing_fields_list:
+            validation_message.append(missing_fields_list)
+        non_numeric_fields = numeric_fields(
+            payload, constants.VALIDATION_DEPARTMENT_POST['integer_fields'])
+        if non_numeric_fields:
+            validation_message.append(non_numeric_fields)
+    return validation_message
+
+
+def missing_fields(payload, key_list):
+    """Check missing fields.
+    :param payload: json
+    :param key_list: list
+    :return: mixed
+    """
+    missing_fields_list = []
+    for key in key_list:
+        if key not in payload:
+            missing_fields_list.append(key)
+    if missing_fields_list:
+        return {'missing fields': [key for key in missing_fields_list]}
+    return missing_fields_list
+
+
+def numeric_fields(payload, key_list):
+    """Check fields are numeric.
+    :param payload: json
+    :param key_list: list
+    :return: mixed
+    """
+    non_numeric_fields = []
+    for key in key_list:
+        if not is_number(str(payload.get(key))):
+            non_numeric_fields.append(key)
+    if non_numeric_fields:
+        return {'non integer or negative fields list':
+                [key for key in non_numeric_fields]}
+    return non_numeric_fields
