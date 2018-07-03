@@ -12,12 +12,10 @@ ERROR_CODE_BAD_REQUEST = 'bad_request'
 
 # Endpoint messages
 DELETE_MESSAGE = '{module} detail successfully removed for {title} {id}'
-DUPLICATE_KEY_MESSAGE = 'Duplicate entry found for {title} - {id}'
 
 # Constants for validation
 VALIDATION_DEPARTMENT_POST = {
-    'missing_fields': ['department_id', 'name'],
-    'integer_fields': ['department_id']
+    'required_fields': ['name']
 }
 VALIDATION_EMPLOYEE_POST = {
     'required_fields': ['name', 'department_id'],

@@ -76,15 +76,8 @@ def post_department(payload):
     :return: Department details added against the given data.
     :raises: sqlalchemy exceptions.
     """
-    department = get_department(payload.get('department_id'))
-    if department:
-        return response.create_error_response(
-            code=constants.ERROR_CODE_BAD_REQUEST,
-            message=constants.DUPLICATE_KEY_MESSAGE.format(
-                title='department id', id=payload.get('department_id')))
     try:
         department = Department(
-            department_id=payload.get('department_id'),
             name=payload.get('name')
         )
         session.add(department)

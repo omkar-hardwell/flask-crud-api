@@ -40,13 +40,9 @@ def validate_request(payload, request_type, model):
         return 'Request should not be empty'
     if request_type == 'POST' and model == 'department':
         missing_fields_list = missing_fields(
-            payload, constants.VALIDATION_DEPARTMENT_POST['missing_fields'])
+            payload, constants.VALIDATION_DEPARTMENT_POST['required_fields'])
         if missing_fields_list:
             validation_message.append(missing_fields_list)
-        non_numeric_fields = numeric_fields(
-            payload, constants.VALIDATION_DEPARTMENT_POST['integer_fields'])
-        if non_numeric_fields:
-            validation_message.append(non_numeric_fields)
     elif request_type == 'POST' and model == 'employee':
         missing_fields_list = missing_fields(
             payload, constants.VALIDATION_EMPLOYEE_POST['required_fields'])
