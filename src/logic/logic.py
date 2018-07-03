@@ -66,3 +66,15 @@ def post_department(payload):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
     return department.post_department(payload)
+
+
+def post_employee(payload):
+    """Add an employee details.
+    :param payload: json - Employee details.
+    :return: Employee details added against the given data.
+    """
+    validate = validator.validate_request(payload, 'POST', 'employee')
+    if validate:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
+    return employee.post_employee(payload)
