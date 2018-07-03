@@ -85,3 +85,13 @@ def post_department():
     :return: Department details added against the given data.
     """
     return flaskify(logic.post_department(request.get_json()))
+
+
+@app.route(
+    configs.BASE_PATH + '/employee', methods=['POST'])
+def post_employee():
+    """Add an employee details.
+    :param: request json - Request body.
+    :return: Employee details added against the given data.
+    """
+    return flaskify(logic.post_employee(request.get_json()))

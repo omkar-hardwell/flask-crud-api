@@ -19,3 +19,7 @@ VALIDATION_DEPARTMENT_POST = {
     'missing_fields': ['department_id', 'name'],
     'integer_fields': ['department_id']
 }
+VALIDATION_EMPLOYEE_POST = {
+    'required_fields': ['name', 'department_id'],
+    'integer_fields': ['department_id']
+}

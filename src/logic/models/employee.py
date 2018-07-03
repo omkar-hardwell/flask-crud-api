@@ -45,6 +45,9 @@ def get_employee(employee_id):
     try:
         result_set = session.query(
             Employee, department.Department.name
+        ).join(
+            department.Department,
+            Employee.department_id == department.Department.department_id
         ).filter(
             Employee.employee_id == employee_id
         ).one()
@@ -87,5 +90,29 @@ def delete_employee(employee_id):
             constants.ERROR_MESSAGE_NOT_FOUND.format(
                 title='employee id', id=employee_id))
     except (exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def post_employee(payload):
+    """Add an employee details.
+    :param payload: json - Employee details.
+    :return: Employee details added against the given data.
+    :raises: sqlalchemy exceptions.
+    """
+    try:
+        employee = Employee(
+            address=payload.get('address'),
+            date_of_joining=payload.get('date_of_joining'),
+            department_id=payload.get('department_id'),
+            gender=payload.get('gender'),
+            name=payload.get('name'),
+            salary=payload.get('salary')
+        )
+        session.add(employee)
+        session.commit()
+        # Get employee details via get_employee() using last inserted id.
+        return get_employee(employee.employee_id)
+    except(exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
