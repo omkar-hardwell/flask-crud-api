@@ -386,15 +386,11 @@ definitions:
   postRequestBodyDepartment:
     type: object
     properties:
-      department_id:
-        type: integer
       name:
         type: string
     required:
-      - department_id
       - name
     example:
-      department_id: 1
       name: 'Information Technology'
   200PostResponseDepartment:
     description: 200 OK
@@ -431,9 +427,8 @@ definitions:
       - code
     example:
       message:
-        - non integer or negative fields list:
-            - department_id
-        - missing department name: 'Please provide valid department name'
+        - missing fields:
+          - name
       code: bad_request
   200GETResponseEmployee:
     description: 200 OK
@@ -565,11 +560,9 @@ definitions:
   postRequestBodyEmployee:
     type: object
     properties:
-      employee_id:
-        type: integer
       name:
         type: string
-      department:
+      department_id:
         type: integer
       date_of_joining:
         type: string
@@ -578,19 +571,17 @@ definitions:
       address:
         type: string
       salary:
-        type: integer
+        type: number
     required:
-      - employee_id
       - name
-      - department
+      - department_id
     example:
-      employee_id: 1
       name: 'Omkar Kshirsagar'
-      department: 1
+      department_id: 1
       date_of_joining: '2017-01-01'
       gender: 'male'
       address: 'Lorem Ipsume Lorem Ipsume'
-      salary: 20000
+      salary: 20000.50
   200PostResponseEmployee:
     description: 200 OK
     type: object
@@ -605,7 +596,7 @@ definitions:
             name:
               type: string
             department:
-              type: integer
+              type: string
             date_of_joining:
               type: string
             gender:
@@ -613,7 +604,7 @@ definitions:
             address:
               type: string
             salary:
-              type: integer
+              type: number
           required:
             - employee_id
             - name
@@ -624,11 +615,11 @@ definitions:
       employee:
         employee_id: 1
         name: 'Omkar Kshirsagar'
-        department: 1
+        department: 'IT'
         date_of_joining: '2017-01-01'
         gender: 'male'
         address: 'Lorem Ipsume Lorem Ipsume'
-        salary: 20000
+        salary: 20000.50
   400PostResponseEmployee:
     description: 400 Bad request
     type: object
@@ -642,14 +633,14 @@ definitions:
       - code
     example:
       message:
-        - missing employee name: 'Please provide valid employee name'
+        - missing fields:
+          - department_id
+          - name
         - non integer or negative fields list:
-            - employee_id
-            - department
-            - salary
+          - department_id
         - invalid gender value: 'Gender should be male or female'
         - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
-        - <employee_id> must be integer and greater than zero
+        - invalid salary value: 'Salary should be like 2000.00'
 securityDefinitions:
   ApiKeyAuth:
     type: apiKey
