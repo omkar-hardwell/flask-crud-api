@@ -1,5 +1,5 @@
 """Validation for API methods."""
-import datetime, re
+import datetime
 from src import constants
 
 
