@@ -105,3 +105,13 @@ def put_department(department_id):
     :return: Success message on update of department details.
     """
     return flaskify(logic.put_department(department_id, request.get_json()))
+
+
+@app.route(
+    configs.BASE_PATH + '/employee/<employee_id>', methods=['PUT'])
+def put_employee(employee_id):
+    """Update the employee details against the given employee id.
+    :param employee_id: str - Unique identification of employee.
+    :return: Success message on update of employee details.
+    """
+    return flaskify(logic.put_employee(employee_id, request.get_json()))

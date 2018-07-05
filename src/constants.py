@@ -18,7 +18,7 @@ UPDATE_MESSAGE = '{module} detail successfully updated for {title} {id}'
 VALIDATION_DEPARTMENT_POST_AND_PUT = {
     'required_fields': ['name']
 }
-VALIDATION_EMPLOYEE_POST = {
+VALIDATION_EMPLOYEE_POST_AND_PUT = {
     'required_fields': ['name', 'department_id'],
     'integer_fields': ['department_id']
 }

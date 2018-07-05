@@ -90,6 +90,12 @@ def post_department(payload):
 
 
 def put_department(department_id, payload):
+    """Update the department details against the given department id.
+    :param department_id: int - Unique identification of department.
+    :param payload: json - Department details.
+    :return: Success message on update of department details.
+    :raises: sqlalchemy exceptions.
+    """
     try:
         department = {'name': payload.get('name')}
         affected_row = session.query(Department).filter(

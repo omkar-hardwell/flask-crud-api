@@ -46,11 +46,13 @@ def validate_request(payload, request_type, model):
             validation_message.append(missing_fields_list)
     elif request_type == 'POST' and model == 'employee':
         missing_fields_list = missing_fields(
-            payload, constants.VALIDATION_EMPLOYEE_POST['required_fields'])
+            payload,
+            constants.VALIDATION_EMPLOYEE_POST_AND_PUT['required_fields'])
         if missing_fields_list:
             validation_message.append(missing_fields_list)
         non_numeric_fields = numeric_fields(
-            payload, constants.VALIDATION_EMPLOYEE_POST['integer_fields'])
+            payload,
+            constants.VALIDATION_EMPLOYEE_POST_AND_PUT['integer_fields'])
         if non_numeric_fields:
             validation_message.append(non_numeric_fields)
         if not validate_date(payload.get('date_of_joining')):
@@ -69,6 +71,27 @@ def validate_request(payload, request_type, model):
             constants.VALIDATION_DEPARTMENT_POST_AND_PUT['required_fields'])
         if missing_fields_list:
             validation_message.append(missing_fields_list)
+    elif request_type == 'PUT' and model == 'employee':
+        missing_fields_list = missing_fields(
+            payload,
+            constants.VALIDATION_EMPLOYEE_POST_AND_PUT['required_fields'])
+        if missing_fields_list:
+            validation_message.append(missing_fields_list)
+        non_numeric_fields = numeric_fields(
+            payload,
+            constants.VALIDATION_EMPLOYEE_POST_AND_PUT['integer_fields'])
+        if non_numeric_fields:
+            validation_message.append(non_numeric_fields)
+        if not validate_date(payload.get('date_of_joining')):
+            validation_message.append({
+                'invalid date format':
+                    'Date of joining should be in valid YYYY-MM-DD format'})
+        if payload.get('gender') not in constants.GENDER:
+            validation_message.append({
+                'invalid gender value': 'Gender should be male or female'})
+        if not is_float(str(payload.get('salary'))):
+            validation_message.append({
+                'invalid salary value': 'Salary should be like 2000.00'})
     return validation_message
 
 

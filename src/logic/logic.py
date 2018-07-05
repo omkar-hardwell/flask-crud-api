@@ -96,3 +96,21 @@ def put_department(department_id, payload):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
     return department.put_department(department_id, payload)
+
+
+def put_employee(employee_id, payload):
+    """Update the employee details against the given employee id.
+    :param employee_id: str - Unique identification of employee.
+    :param payload: json - Request body.
+    :return: Success message on update of employee details.
+    """
+    if not validator.is_number(employee_id):
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST,
+            message=constants.ERROR_MESSAGE_BAD_REQUEST.format(
+                title='employee id', id=employee_id))
+    validate = validator.validate_request(payload, 'PUT', 'employee')
+    if validate:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
+    return employee.put_employee(employee_id, payload)
