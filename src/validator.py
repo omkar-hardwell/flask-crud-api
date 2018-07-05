@@ -40,7 +40,8 @@ def validate_request(payload, request_type, model):
         return 'Request should not be empty'
     if request_type == 'POST' and model == 'department':
         missing_fields_list = missing_fields(
-            payload, constants.VALIDATION_DEPARTMENT_POST['required_fields'])
+            payload,
+            constants.VALIDATION_DEPARTMENT_POST_AND_PUT['required_fields'])
         if missing_fields_list:
             validation_message.append(missing_fields_list)
     elif request_type == 'POST' and model == 'employee':
@@ -62,6 +63,12 @@ def validate_request(payload, request_type, model):
         if not is_float(str(payload.get('salary'))):
             validation_message.append({
                 'invalid salary value': 'Salary should be like 2000.00'})
+    elif request_type == 'PUT' and model == 'department':
+        missing_fields_list = missing_fields(
+            payload,
+            constants.VALIDATION_DEPARTMENT_POST_AND_PUT['required_fields'])
+        if missing_fields_list:
+            validation_message.append(missing_fields_list)
     return validation_message
 
 
