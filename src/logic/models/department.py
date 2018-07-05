@@ -87,3 +87,22 @@ def post_department(payload):
     except(exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def put_department(department_id, payload):
+    try:
+        department = {'name': payload.get('name')}
+        affected_row = session.query(Department).filter(
+            Department.department_id == department_id).update(department)
+        if not affected_row:
+            raise NoResultFound
+        session.commit()
+        return response.Response(message=constants.UPDATE_MESSAGE.format(
+            module='Department', title='department id', id=department_id))
+    except NoResultFound:
+        return response.create_not_found_response(
+            constants.ERROR_MESSAGE_NOT_FOUND.format(
+                title='department id', id=department_id))
+    except(exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)
