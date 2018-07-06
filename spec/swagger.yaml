@@ -70,6 +70,7 @@ paths:
           description: "Unique identification of department"
         - in: body
           name: body
+          required: true
           schema:
             $ref: '#/definitions/putRequestBodyDepartment'
       security:
@@ -288,7 +289,7 @@ definitions:
         example: internal_error
       message:
         type: string
-        example: Could not connect to MySQL.
+        example: Internal server error
     required:
       - message
       - code
@@ -371,8 +372,9 @@ definitions:
       - code
     example:
       message:
-        - missing department name: 'Please provide valid department name'
-        - <department_id> must be integer and greater than zero
+        - missing fields:
+          - name
+        - department id - <department_id> must be integer and greater than zero
       code: bad_request
   200DeleteResponseDepartment:
     description: 200 OK
@@ -499,7 +501,7 @@ definitions:
     properties:
       name:
         type: string
-      department:
+      department_id:
         type: integer
       date_of_joining:
         type: string
@@ -508,17 +510,17 @@ definitions:
       address:
         type: string
       salary:
-        type: integer
+        type: number
     required:
       - name
-      - department
+      - department_id
     example:
       name: 'Omkar Kshirsagar'
-      department: 1
+      department_id: 1
       date_of_joining: '2017-01-01'
       gender: 'male'
       address: 'Lorem Ipsume Lorem Ipsume'
-      salary: 20000
+      salary: 20000.50
   200PutResponseEmployee:
     description: 200 OK
     type: object
@@ -541,13 +543,15 @@ definitions:
       - code
     example:
       message:
-        - missing employee name: 'Please provide valid employee name'
+        - missing fields:
+          - name
+          - department_id
         - non integer or negative fields list:
-            - department
-            - salary
+            - department_id
         - invalid gender value: 'Gender should be male or female'
         - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
-        - <employee_id> must be integer and greater than zero
+        - invalid salary value: 'Salary should be like 2000.00'
+        - employee id - <employee_id> must be integer and greater than zero
   200DeleteResponseEmployee:
     description: 200 OK
     type: object
