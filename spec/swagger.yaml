@@ -21,6 +21,8 @@ paths:
         - "Health Check"
       description: "Health check"
       summary: "Check the health of the application."
+      security:
+        - ApiKeyAuth: []
       responses:
         '200':
           description: "200 OK"
@@ -649,5 +651,5 @@ securityDefinitions:
   ApiKeyAuth:
     type: apiKey
     in: header
-    name: Flask-CRUD-API-Key
+    name: Flask-Crud-Api-Key
     description: "Api key for authentication"

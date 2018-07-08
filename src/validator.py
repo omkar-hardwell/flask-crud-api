@@ -1,5 +1,8 @@
 """Validation for API methods."""
 import datetime
+from functools import wraps
+from oto import response, status as oto_status
+from oto.adaptors.flask import flaskify
 from src import constants
 
 
@@ -136,3 +139,32 @@ def validate_date(date):
         return True
     except ValueError:
         return False
+
+
+def is_authenticated(headers):
+    """Authenticate request with api key.
+    :param headers: dict - Request headers.
+    :return: boolean
+    """
+    if constants.API_KEY_IN_HEADER in headers:
+        if headers.get(constants.API_KEY_IN_HEADER) == constants.API_KEY:
+            return True
+    return False
+
+
+def authorization(request):
+    """Wrapper function to validate request.
+    :param request: obj - Request object.
+    :return: Wrapper function response.
+    """
+    def authenticate(func):
+        @wraps(func)
+        def authenticate_and_call(*args, **kwargs):
+            if not is_authenticated(request.headers):
+                return flaskify(response.create_error_response(
+                    code=constants.ERROR_CODE_UNAUTHORIZED_REQUEST,
+                    message=constants.ERROR_MESSAGE_UNAUTHORIZED_ACCESS,
+                    status=oto_status.UNAUTHORIZED))
+            return func(*args, **kwargs)
+        return authenticate_and_call
+    return authenticate
