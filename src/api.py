@@ -8,7 +8,7 @@ from flask import Flask, jsonify, request
 from oto import response
 from oto.adaptors.flask import flaskify
 from flasgger import Swagger
-from src import constants
+from src import constants, validator
 from src.logic import logic
 
 
@@ -30,6 +30,7 @@ def internal_error(error):
 
 
 @app.route(configs.BASE_PATH + '/hello', methods=['GET'])
+@validator.authorization(request)
 def health():
     """Check the health of the application.
     :return: Status of application.
@@ -39,6 +40,7 @@ def health():
 
 @app.route(
     configs.BASE_PATH + '/department/<department_id>', methods=['GET'])
+@validator.authorization(request)
 def get_department(department_id):
     """Get the department details against the given department id.
     :param department_id: str - Unique identification of department.
@@ -49,6 +51,7 @@ def get_department(department_id):
 
 @app.route(
     configs.BASE_PATH + '/employee/<employee_id>', methods=['GET'])
+@validator.authorization(request)
 def get_employee(employee_id):
     """Get the employee details against the given employee id.
     :param employee_id: str - Unique identification of department.
@@ -59,6 +62,7 @@ def get_employee(employee_id):
 
 @app.route(
     configs.BASE_PATH + '/department/<department_id>', methods=['DELETE'])
+@validator.authorization(request)
 def delete_department(department_id):
     """Delete the department details against the given department id.
     :param department_id: str - Unique identification of department.
@@ -69,6 +73,7 @@ def delete_department(department_id):
 
 @app.route(
     configs.BASE_PATH + '/employee/<employee_id>', methods=['DELETE'])
+@validator.authorization(request)
 def delete_employee(employee_id):
     """Delete the employee details against the given employee id.
     :param employee_id: str - Unique identification of employee.
@@ -79,6 +84,7 @@ def delete_employee(employee_id):
 
 @app.route(
     configs.BASE_PATH + '/department', methods=['POST'])
+@validator.authorization(request)
 def post_department():
     """Add the department details.
     :param: request json - Request body.
@@ -89,6 +95,7 @@ def post_department():
 
 @app.route(
     configs.BASE_PATH + '/employee', methods=['POST'])
+@validator.authorization(request)
 def post_employee():
     """Add an employee details.
     :param: request json - Request body.
@@ -99,6 +106,7 @@ def post_employee():
 
 @app.route(
     configs.BASE_PATH + '/department/<department_id>', methods=['PUT'])
+@validator.authorization(request)
 def put_department(department_id):
     """Update the department details against the given department id.
     :param department_id: str - Unique identification of department.
@@ -109,6 +117,7 @@ def put_department(department_id):
 
 @app.route(
     configs.BASE_PATH + '/employee/<employee_id>', methods=['PUT'])
+@validator.authorization(request)
 def put_employee(employee_id):
     """Update the employee details against the given employee id.
     :param employee_id: str - Unique identification of employee.
