@@ -5,6 +5,8 @@ This is the Flask micro-framework API for Department and Employee details. Opera
 **Database:** Mysql<br/>
 **Database ORM:** SQLAlchemy
 
+The detail information about database found in [Database dump](dump/README.md)
+
 **Installation**
 
 The installation is very straightforward and make sure you are using at least python 3.6.x and later.
