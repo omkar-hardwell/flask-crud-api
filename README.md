@@ -5,7 +5,7 @@ This is the Flask micro-framework API for Department and Employee details. Opera
 **Database:** Mysql<br/>
 **Database ORM:** SQLAlchemy
 
-The detail information about database found in [Database dump](dump/README.md)
+The detail information about database found in [Database dump](/dump)
 
 **Installation**
 
@@ -70,7 +70,7 @@ Run the tests.
 
 **Swagger**
 
-[Swagger specification](spec/README.md)
+[Swagger specification](/spec)
 
 **References**
 
