@@ -151,6 +151,37 @@ paths:
           description: "500 Internal server error"
           schema:
             $ref: '#/definitions/500Response'
+    get:
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          description: "page"
+        - in: query
+          name: page_size
+          required: false
+          type: integer
+          description: "page_size"
+      tags:
+        - "Department"
+      description: "Get the detail about departments"
+      summary: "Get departments detail"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: "#/definitions/200GETResponseDepartments"
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETResponseDepartments'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
   /employee/{employee_id}:
     get:
       parameters:
@@ -317,6 +348,55 @@ definitions:
       department:
         department_id: 1
         name: 'Information Technology'
+  200GETResponseDepartments:
+    description: 200 OK
+    type: object
+    properties:
+      departments:
+        type: array
+        items:
+          type: object
+          properties:
+            department_id:
+              type: integer
+            name:
+              type: string
+          required:
+            - department_id
+            - name
+      page:
+        type: string
+      page_size:
+        type: string
+    required:
+      - department
+      - page
+      - page_size
+    example:
+      {
+        "departments": [{
+          "department_id": 1,
+          "name": "Information Technology"
+        }, {
+          "department_id": 2,
+          "name": "Sales"
+        }],
+        "page": 1,
+        "page_size": 10
+      }
+  400GETResponseDepartments:
+    description: 400 Bad request
+    type: object
+    properties:
+      code:
+        type: string
+        example: bad_request
+      message:
+        type: string
+        example: page or page_size must be integer and greater than zero
+    required:
+      - message
+      - code
   400GETAndDeleteResponseDepartment:
     description: 400 Bad request
     type: object
