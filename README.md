@@ -36,6 +36,11 @@ OR
 $ env\Scripts\activate
 ```
 
+Deactivate virtual environment.
+```
+(env) $ deactivate
+```
+
 Install dependencies/packages.
 
 ```
