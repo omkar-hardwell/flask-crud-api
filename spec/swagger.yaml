@@ -157,12 +157,32 @@ paths:
           name: page
           required: false
           type: integer
-          description: "page"
+          description: "Page index to paginate the records"
         - in: query
           name: page_size
           required: false
           type: integer
-          description: "page_size"
+          description: "Total no. of records per page"
+        - in: query
+          name: sort_by
+          required: false
+          type: string
+          description: "Name of the fields comma separated for sorting records. Ex: name"
+        - in: query
+          name: order_by
+          required: false
+          type: string
+          description: "Order's by comma separated to sort records given in sort_by fields. Ex: ASC|DESC"
+        - in: query
+          name: search_by
+          required: false
+          type: string
+          description: "Name of the fields comma separated for searching records. Ex: name"
+        - in: query
+          name: search_for
+          required: false
+          type: string
+          description: "The appropriate search value with comma separated to search records given in search_by fields. Ex: omkar"
       tags:
         - "Department"
       description: "Get the detail about departments"
@@ -364,12 +384,21 @@ definitions:
           required:
             - department_id
             - name
+      total_records:
+        type: integer
+      total_records_per_page:
+        type: integer
+      total_pages:
+        type: integer
       page:
-        type: string
+        type: integer
       page_size:
-        type: string
+        type: integer
     required:
-      - department
+      - departments
+      - total_records
+      - total_records_per_page
+      - total_pages
       - page
       - page_size
     example:
@@ -381,8 +410,11 @@ definitions:
           "department_id": 2,
           "name": "Sales"
         }],
+        "total_records": 4,
+        "total_records_per_page": 2,
+        "total_pages": 2,
         "page": 1,
-        "page_size": 10
+        "page_size": 2
       }
   400GETResponseDepartments:
     description: 400 Bad request
@@ -390,13 +422,23 @@ definitions:
     properties:
       code:
         type: string
-        example: bad_request
       message:
         type: string
-        example: page or page_size must be integer and greater than zero
     required:
       - message
       - code
+    example:
+      code: bad_request
+      message:
+        - missing fields:
+          - sort_by
+          - order_by
+          - search_by
+          - search_for
+        - non integer or negative fields list:
+          - page
+          - page_size
+        - invalid order by value: 'order_by value should be ASC or DESC'
   400GETAndDeleteResponseDepartment:
     description: 400 Bad request
     type: object
@@ -634,6 +676,7 @@ definitions:
         - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
         - invalid salary value: 'Salary should be like 2000.00'
         - employee id - <employee_id> must be integer and greater than zero
+      code: bad_request
   200DeleteResponseEmployee:
     description: 200 OK
     type: object
@@ -727,6 +770,7 @@ definitions:
         - invalid gender value: 'Gender should be male or female'
         - invalid date format: 'Date of joining should be in valid YYYY-MM-DD format'
         - invalid salary value: 'Salary should be like 2000.00'
+      code: bad_request
 securityDefinitions:
   ApiKeyAuth:
     type: apiKey
