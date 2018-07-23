@@ -197,7 +197,7 @@ paths:
         '400':
           description: "400 Bad request"
           schema:
-            $ref: '#/definitions/400GETResponseDepartments'
+            $ref: '#/definitions/400GETResponseDepartmentsAndEmployees'
         '500':
           description: "500 Internal server error"
           schema:
@@ -325,6 +325,57 @@ paths:
           description: "500 Internal server error"
           schema:
             $ref: '#/definitions/500Response'
+    get:
+      parameters:
+        - in: query
+          name: page
+          required: false
+          type: integer
+          description: "Page index to paginate the records"
+        - in: query
+          name: page_size
+          required: false
+          type: integer
+          description: "Total no. of records per page"
+        - in: query
+          name: sort_by
+          required: false
+          type: string
+          description: "Name of the fields comma separated for sorting records. Ex: name"
+        - in: query
+          name: order_by
+          required: false
+          type: string
+          description: "Order's by comma separated to sort records given in sort_by fields. Ex: ASC|DESC"
+        - in: query
+          name: search_by
+          required: false
+          type: string
+          description: "Name of the fields comma separated for searching records. Ex: name"
+        - in: query
+          name: search_for
+          required: false
+          type: string
+          description: "The appropriate search value with comma separated to search records given in search_by fields. Ex: omkar"
+      tags:
+        - "Employee"
+      description: "Get the detail about employees"
+      summary: "Get employees detail"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: "200 OK"
+          schema:
+            $ref: "#/definitions/200GETResponseEmployees"
+        '400':
+          description: "400 Bad request"
+          schema:
+            $ref: '#/definitions/400GETResponseDepartmentsAndEmployees'
+        '500':
+          description: "500 Internal server error"
+          schema:
+            $ref: '#/definitions/500Response'
 definitions:
   healthCheck:
     type: object
@@ -416,7 +467,7 @@ definitions:
         "page": 1,
         "page_size": 2
       }
-  400GETResponseDepartments:
+  400GETResponseDepartmentsAndEmployees:
     description: 400 Bad request
     type: object
     properties:
@@ -594,6 +645,75 @@ definitions:
         gender: 'male'
         address: 'Lorem Ipsume Lorem Ipsume'
         salary: 20000
+  200GETResponseEmployees:
+    description: 200 OK
+    type: object
+    properties:
+      employees:
+        type: array
+        items:
+          type: object
+          properties:
+            employee_id:
+              type: integer
+            name:
+              type: string
+            department:
+              type: integer
+            date_of_joining:
+              type: string
+            gender:
+              type: string
+            address:
+              type: string
+            salary:
+              type: integer
+          required:
+            - employee_id
+            - name
+            - department
+      total_records:
+        type: integer
+      total_records_per_page:
+        type: integer
+      total_pages:
+        type: integer
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+      - employees
+      - total_records
+      - total_records_per_page
+      - total_pages
+      - page
+      - page_size
+    example:
+      {
+        "employees": [{
+          "employee_id": 1,
+          "name": "Omkar Kshirsagar",
+          "department": "IT",
+          "date_of_joining": "2017-01-01",
+          "gender": "male",
+          "address": "Lorem Ipsume Lorem Ipsume",
+          "salary": 20000
+        }, {
+          "employee_id": 2,
+          "name": "Sunny Kshirsagar",
+          "department": "Sales",
+          "date_of_joining": "2017-01-01",
+          "gender": "male",
+          "address": "Lorem Ipsume Lorem Ipsume",
+          "salary": 50000
+        }],
+        "total_records": 4,
+        "total_records_per_page": 2,
+        "total_pages": 2,
+        "page": 1,
+        "page_size": 2
+      }
   400GETAndDeleteResponseEmployee:
     description: 400 Bad request
     type: object
