@@ -124,3 +124,22 @@ def put_employee(employee_id):
     :return: Success message on update of employee details.
     """
     return flaskify(logic.put_employee(employee_id, request.get_json()))
+
+
+@app.route(
+    configs.BASE_PATH + '/department', methods=['GET'])
+@validator.authorization(request)
+def get_departments():
+    """Get the departments detail.
+    :return: Departments detail.
+    """
+    filter_data = {
+        'page': request.args.get('page') or 1,
+        'page_size':
+            request.args.get('page_size') or constants.DEFAULT_PAGE_SIZE,
+        'sort_by': request.args.get('sort_by') or None,
+        'order_by': request.args.get('order_by') or None,
+        'search_by': request.args.get('search_by') or None,
+        'search_for': request.args.get('search_for') or None
+    }
+    return flaskify(logic.get_departments(filter_data))
