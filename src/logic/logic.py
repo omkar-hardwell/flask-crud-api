@@ -114,3 +114,15 @@ def put_employee(employee_id, payload):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
     return employee.put_employee(employee_id, payload)
+
+
+def get_departments(filter_data):
+    """Get the departments detail.
+    :param filter_data: dict - Data for filter the result.
+    :return: Departments detail.
+    """
+    validate = validator.validate_filter_request(filter_data, 'department')
+    if validate:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
+    return department.get_departments(filter_data)

@@ -1,5 +1,10 @@
 """Application constants"""
 GENDER = ['male', 'female']
+DEFAULT_PAGE_SIZE = 10
+SORT_ORDER = ['ASC', 'DESC']
+INTEGER_FIELDS_FILTER_REQUEST = ['page', 'page_size']
+FIELDS_FOR_SEARCH = ['search_by', 'search_for']
+FIELDS_FOR_SORT = ['sort_by', 'order_by']
 
 # HTTP response error messages
 ERROR_MESSAGE_NOT_FOUND = 'Requested {title} {id} not found.'
@@ -25,6 +30,7 @@ VALIDATION_EMPLOYEE_POST_AND_PUT = {
     'required_fields': ['name', 'department_id'],
     'integer_fields': ['department_id']
 }
+VALIDATION_DEPARTMENT_FIELDS_FOR_FILTER = ['department_id', 'name']
 
 # Application key for authentication
 API_KEY_IN_HEADER = 'Flask-Crud-Api-Key'

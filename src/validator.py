@@ -168,3 +168,81 @@ def authorization(request):
             return func(*args, **kwargs)
         return authenticate_and_call
     return authenticate
+
+
+def validate_filter_request(filter_data, model):
+    """Validate GET request for filter records.
+    :param filter_data: dict - Request to filter data.
+    :param model: str
+    :return: list
+    """
+    validation_message = []
+    invalid_fields_message = []
+    non_numeric_fields = numeric_fields(
+        filter_data, constants.INTEGER_FIELDS_FILTER_REQUEST)
+    if non_numeric_fields:
+        validation_message.append(non_numeric_fields)
+    if filter_data.get('order_by') \
+            and filter_data.get('order_by') not in constants.SORT_ORDER:
+        validation_message.append({
+            'invalid order by value':
+                'order_by value should be ASC or DESC'})
+    missing_fields_list = missing_fields_for_filters(filter_data)
+    if missing_fields_list:
+        validation_message.append({'missing fields': missing_fields_list})
+    if model == 'department':
+        if filter_data.get('sort_by'):
+            invalid_fields_list = invalid_fields(
+                filter_data.get('sort_by'), 'sort_by',
+                constants.VALIDATION_DEPARTMENT_FIELDS_FOR_FILTER)
+            if invalid_fields_list:
+                invalid_fields_message.append(invalid_fields_list)
+        if filter_data.get('search_by'):
+            invalid_fields_list = invalid_fields(
+                filter_data.get('search_by'), 'search_by',
+                constants.VALIDATION_DEPARTMENT_FIELDS_FOR_FILTER)
+            if invalid_fields_list:
+                invalid_fields_message.append(invalid_fields_list)
+    if invalid_fields_message:
+        validation_message.append({'invalid fields': invalid_fields_message})
+    return validation_message
+
+
+def invalid_fields(fields, operation, valid_fields):
+    """Validate invalid fields.
+    :param fields: str
+    :param operation: str
+    :param valid_fields: list
+    :return: list
+    """
+    invalid_fields_list = []
+    for field in fields.split(','):
+        if field not in valid_fields:
+            invalid_fields_list.append(field)
+    if invalid_fields_list:
+        return '{invalid_fields}. {operation} contains {valid_fields}'.format(
+            invalid_fields=','.join(invalid_fields_list), operation=operation,
+            valid_fields=','.join(valid_fields))
+    return invalid_fields_list
+
+
+def missing_fields_for_filters(filter_data):
+    """Validate missing fields.
+    :param filter_data: dict
+    :return: list
+    """
+    missing_field_search = []
+    missing_field_sort = []
+    for k, v in filter_data.items():
+        if k in constants.FIELDS_FOR_SEARCH:
+            if filter_data[k] is None:
+                missing_field_search.append(k)
+    if len(missing_field_search) == 2:
+        missing_field_search.clear()
+    for k, v in filter_data.items():
+        if k in constants.FIELDS_FOR_SORT:
+            if filter_data[k] is None:
+                missing_field_sort.append(k)
+    if len(missing_field_sort) == 2:
+        missing_field_sort.clear()
+    return missing_field_search + missing_field_sort
