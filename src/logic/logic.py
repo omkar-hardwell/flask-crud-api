@@ -126,3 +126,15 @@ def get_departments(filter_data):
         return response.create_error_response(
             code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
     return department.get_departments(filter_data)
+
+
+def get_employees(filter_data):
+    """Get the employees detail.
+    :param filter_data: dict - Data for filter the result.
+    :return: Employees detail.
+    """
+    validate = validator.validate_filter_request(filter_data, 'employee')
+    if validate:
+        return response.create_error_response(
+            code=constants.ERROR_CODE_BAD_REQUEST, message=validate)
+    return employee.get_employees(filter_data)
