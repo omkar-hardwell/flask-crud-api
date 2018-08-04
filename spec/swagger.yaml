@@ -167,12 +167,12 @@ paths:
           name: sort_by
           required: false
           type: string
-          description: "Name of the fields comma separated for sorting records. Ex: name"
+          description: "Name of the fields for sorting records. Ex: name"
         - in: query
           name: order_by
           required: false
           type: string
-          description: "Order's by comma separated to sort records given in sort_by fields. Ex: ASC|DESC"
+          description: "Order's by to sort records given in sort_by fields. Ex: ASC|DESC"
         - in: query
           name: search_by
           required: false
@@ -341,12 +341,12 @@ paths:
           name: sort_by
           required: false
           type: string
-          description: "Name of the fields comma separated for sorting records. Ex: name"
+          description: "Name of the fields for sorting records. Ex: name"
         - in: query
           name: order_by
           required: false
           type: string
-          description: "Order's by comma separated to sort records given in sort_by fields. Ex: ASC|DESC"
+          description: "Order's by to sort records given in sort_by fields. Ex: ASC|DESC"
         - in: query
           name: search_by
           required: false
@@ -490,6 +490,7 @@ definitions:
           - page
           - page_size
         - invalid order by value: 'order_by value should be ASC or DESC'
+        - invalid fields: '<invalid_fields>. <operation> contains <valid_fields>'
   400GETAndDeleteResponseDepartment:
     description: 400 Bad request
     type: object
