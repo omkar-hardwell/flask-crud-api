@@ -31,6 +31,8 @@ VALIDATION_EMPLOYEE_POST_AND_PUT = {
     'integer_fields': ['department_id']
 }
 VALIDATION_DEPARTMENT_FIELDS_FOR_FILTER = ['department_id', 'name']
+VALIDATION_EMPLOYEE_FIELDS_FOR_FILTER = [
+    'employee_id', 'name', 'date_of_joining', 'gender', 'salary', 'department']
 
 # Application key for authentication
 API_KEY_IN_HEADER = 'Flask-Crud-Api-Key'

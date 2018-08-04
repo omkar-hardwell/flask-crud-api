@@ -203,6 +203,19 @@ def validate_filter_request(filter_data, model):
                 constants.VALIDATION_DEPARTMENT_FIELDS_FOR_FILTER)
             if invalid_fields_list:
                 invalid_fields_message.append(invalid_fields_list)
+    if model == 'employee':
+        if filter_data.get('sort_by'):
+            invalid_fields_list = invalid_fields(
+                filter_data.get('sort_by'), 'sort_by',
+                constants.VALIDATION_EMPLOYEE_FIELDS_FOR_FILTER)
+            if invalid_fields_list:
+                invalid_fields_message.append(invalid_fields_list)
+        if filter_data.get('search_by'):
+            invalid_fields_list = invalid_fields(
+                filter_data.get('search_by'), 'search_by',
+                constants.VALIDATION_EMPLOYEE_FIELDS_FOR_FILTER)
+            if invalid_fields_list:
+                invalid_fields_message.append(invalid_fields_list)
     if invalid_fields_message:
         validation_message.append({'invalid fields': invalid_fields_message})
     return validation_message

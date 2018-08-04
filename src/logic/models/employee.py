@@ -1,7 +1,9 @@
 """Employee model."""
+import math
+
 from oto import response
 from sqlalchemy import Column, Integer, Float, String, Date, Enum, \
-    ForeignKey, exc
+    ForeignKey, exc, asc, desc
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.orm.exc import NoResultFound
 from mysql_connector import Base, Session
@@ -148,3 +150,94 @@ def put_employee(employee_id, payload):
     except(exc.SQLAlchemyError, exc.DBAPIError):
         return response.create_fatal_response(
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def get_employees(filter_data):
+    """Get the employees detail against the given filter request.
+    :param filter_data: dict - Data for filter the result.
+    :return: Employees details against given filter data. Features supported
+    (sort / search / paginate).
+    :raises: sqlalchemy exceptions.
+    """
+    try:
+        result = []
+        result_set = session.query(
+            Employee, department.Department.name
+        ).prefix_with(
+            'SQL_CALC_FOUND_ROWS'
+        ).join(
+            department.Department,
+            Employee.department_id == department.Department.department_id
+        ).filter(
+            *fields_for_search(filter_data)
+        ).order_by(
+            *fields_for_sort(filter_data)
+        ).offset(
+            (int(filter_data.get('page')) - 1) *
+            int(filter_data.get('page_size'))
+        ).limit(
+            filter_data.get('page_size')
+        ).all()
+        # Calculate total number of records after filter data.
+        total_rows = session.execute('SELECT FOUND_ROWS()').scalar()
+        for employee in result_set:
+            result.append({
+                'employee_id': employee[0].employee_id,
+                'name': employee[0].name,
+                'department': employee[1],
+                'date_of_joining': str(employee[0].date_of_joining),
+                'gender': employee[0].gender,
+                'address': employee[0].address,
+                'salary': float(str("%0.2f" % employee[0].salary))
+            })
+        employees = {
+            'employees': result,
+            'page': int(filter_data.get('page')),
+            'page_size':
+                int(filter_data.get('page_size')),
+            'total_pages': math.ceil(
+                total_rows / int(filter_data.get('page_size'))) or None,
+            'total_records': total_rows or None,
+            'total_records_per_page': len(result) or None
+        }
+        return response.Response(employees)
+    except(exc.SQLAlchemyError, exc.DBAPIError):
+        return response.create_fatal_response(
+            constants.ERROR_MESSAGE_INTERNAL_ERROR)
+
+
+def fields_for_sort(filter_data):
+    """Returns list of fields with order to sort result by given request.
+    :param filter_data: dict - Data for filter the result.
+    :return: list
+    """
+    fields_to_sort = [None]
+    if filter_data.get('sort_by') and filter_data.get('order_by'):
+        fields_to_sort = \
+            [desc(department.Department.name) if v == 'DESC'
+             else asc(department.Department.name) if k == 'department'
+             else desc(getattr(Employee, k)) if v == 'DESC'
+             else asc(getattr(Employee, k))
+             for k, v in dict(zip(
+                 filter_data.get('sort_by').split(','),
+                 filter_data.get('order_by').split(','))).items()
+             ]
+    return fields_to_sort
+
+
+def fields_for_search(filter_data):
+    """Returns list of fields with their value to search result by given request.
+    :param filter_data: dict - Data for filter the result.
+    :return: mixed
+    """
+    # where 1 clause added if no fields found to search.
+    fields_to_search = '1'
+    if filter_data.get('search_by') and filter_data.get('search_for'):
+        fields_to_search = \
+            [department.Department.name == v if k == 'department'
+             else getattr(Employee, k) == v
+             for k, v in dict(zip(
+                filter_data.get('search_by').split(','),
+                filter_data.get('search_for').split(','))).items()
+             ]
+    return fields_to_search
