@@ -130,9 +130,9 @@ def get_departments(filter_data):
         ).prefix_with(
             'SQL_CALC_FOUND_ROWS'
         ).filter(
-            *__fields_for_search(filter_data)
+            *fields_for_search(filter_data)
         ).order_by(
-            *__fields_for_sort(filter_data)
+            *fields_for_sort(filter_data)
         ).offset(
             (int(filter_data.get('page')) - 1) *
             int(filter_data.get('page_size'))
@@ -162,7 +162,7 @@ def get_departments(filter_data):
             constants.ERROR_MESSAGE_INTERNAL_ERROR)
 
 
-def __fields_for_sort(filter_data):
+def fields_for_sort(filter_data):
     """Returns list of fields with order to sort result by given request.
     :param filter_data: dict - Data for filter the result.
     :return: list
@@ -179,7 +179,7 @@ def __fields_for_sort(filter_data):
     return fields_to_sort
 
 
-def __fields_for_search(filter_data):
+def fields_for_search(filter_data):
     """Returns list of fields with their value to search result by given request.
     :param filter_data: dict - Data for filter the result.
     :return: mixed
