@@ -1,6 +1,6 @@
 # Flask API
 
-This is the Flask micro-framework API for Department and Employee details. Operations includes HTTP methods are `GET` `PUT` `DELETE` and `POST`<br/>
+This is the Flask micro-framework API for Department and Employee details. Operations included, basic HTTP methods `GET` `PUT` `DELETE` and `POST`<br/>
 
 **Database:** Mysql<br/>
 **Database ORM:** SQLAlchemy
@@ -49,13 +49,15 @@ Install dependencies/packages.
 
 **Running**
 
-When all dependencies are installed, run the flask application on your local instance.
+Set environment variables in /.env file(like, Database credentials etc.). 
+
+When all dependencies are installed and configuration is set, run the api.
 
 ```
 (env) $ python runserver.py
 ```
 
-Access application by entering *http://127.0.0.1:5000/* or *http://localhost:5000/* url on browser.
+Access api by entering *http://127.0.0.1:5000/* or *http://localhost:5000/* url on browser.
 
 **Testing**
 
@@ -65,12 +67,12 @@ Run the tests.
 (env) $ py.test tests/ --cov src --cov-report term-missing
 ```
 
-*Note: Test cases are pending for this application.*
+*Note: Test cases are pending for this api.*
 
 **For style guide enforcement (flake8)**
 
 ```
-(env) $ flake8 src/ tests/
+(env) $ flake8 file_path/
 ```
 
 **Swagger**
