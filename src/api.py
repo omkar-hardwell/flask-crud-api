@@ -10,10 +10,12 @@ from oto.adaptors.flask import flaskify
 from flasgger import Swagger
 from src import constants, validator
 from src.logic import logic
+from flask_cors import CORS
 
 
 # Application instance
 app = Flask(configs.API_NAME)
+CORS(app)
 
 # Swagger UI integration
 app.config['SWAGGER'] = {
